@@ -1,1 +1,14 @@
+% Definir las funciones de transferencia de cada bloque
+G1 = tf([2], [1 1]);   % 2 / (s + 1)
+G2 = tf([1], [1 2]);   % 1 / (s + 2)
+G3 = tf([3], [1 3]);   % 3 / (s + 3)
+G4 = tf([4], [1 4]);   % 4 / (s + 4)
 
+% 1. Hacer el paralelo de G1 y G2
+Gpar = parallel(G1, G2)  % Suma de funciones de transferencia
+
+% 2. Reducir el lazo de realimentación de G3 y G4
+Geql = feedback(G3, G4)  % Realimentación unitaria negativa
+
+% 3. Cerrar la realimentación con Gpar
+T = feedback(Gpar, Geql)  % Lazo de realimentación negativo
