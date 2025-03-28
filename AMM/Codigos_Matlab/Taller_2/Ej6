@@ -1,1 +1,15 @@
+% Definir las funciones de transferencia individuales
+G1 = tf([1], [1 1]);        % G1(s) = 1 / (s + 1)
+G2 = tf([4], [1 2]);        % G2(s) = 4 / (s + 2)
+G3 = tf([1 0], [1]);        % G3(s) = s
+G4 = tf([1 1], [2 3]);      % G4(s) = (s + 1) / (2s + 3)
+% PASO 1: Sumar G1 y G2 (paralelo)
+G12 = parallel(G1, G2)
+disp('Función de Transferencia de la Suma G12:');
+% PASO 2: Multiplicar G12 con G3 (serie)
+Gf = series(G12, G3)
+disp('Función de Transferencia de Gf (G12 * G3):');
+% PASO 3: Aplicar la retroalimentación negativa con G4
+Gcl = feedback(Gf, G4)
+disp('Función de Transferencia en Lazo Cerrado Gcl:');
 
