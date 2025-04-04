@@ -1,1 +1,6 @@
+Idea de proyecto aprobada
+Dron para reconocimiento de zonas rurales 
 
+Utilizando un ESP32, un módulo de cámara para el esp32 y 4 motores 720 coreless bl,con esto podemos realizar 
+un dron el cual tenga la capacidad de volar en todas las direcciones, con lo cual podrá recopilar la máxima 
+información de su entorno.
