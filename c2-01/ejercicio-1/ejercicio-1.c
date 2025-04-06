@@ -1,3 +1,25 @@
+/* Brian Mendez-Eduardo Meriño-Mateo Peña
+En un proyecto de telemetría se tiene un caudalímetro que envía por puerto
+ serial cada periodo de tiempo la cantidad de caudal detecta, el cual es un
+ número entero no mayor de 2 dígitos (es decir, se enviará un número entre
+ 00 y 99)
+ Se recibirá el número por puerto serial, se debe imprimir por serial la
+ siguiente información:
+ 1. El número mínimo recibido.
+ 2. El número mayor recibido.
+ 3. El último número recibido.
+ 4. El promedio de todos los números recibidos.
+ Un ejemplo de este programa es el siguiente:
+ Último: 10. Minimo: 10. Máximo: 10. Promedio: 10.00
+ Último: 1. Minimo: 1. Máximo: 10. Promedio: 5.50
+ Último: 27. Minimo: 1. Máximo: 27. Promedio: 12.67
+ En el anterior ejemplo, se han enviado por serial 3 números en orden que
+ son 10, 1 y 27. Donde al recibir el tercer dato (27), el número menor en ese
+ momento es 1, el número mayor es 10, el último número recibido es 27 y el
+ promedio de la sumatoria de todos los números recibidos es (10 + 1 + 27)/3
+ = 12.667
+ Si se recibe algo diferente entre 00 y 99 (sea número o letra) se debe
+ ignorar.*/
 #include <stdio.h>             
 #include <string.h>            // Para manejo de cadenas
 #include <stdlib.h>            // Para atoi
