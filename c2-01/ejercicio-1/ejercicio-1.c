@@ -99,7 +99,7 @@ void app_main(){
                  printf("Entrada invalida%s. Ignorado.\n",token);   
                 }
 
-                token = strtok(NULL, ",");// Paar al iguinte numero
+                token = strtok(NULL, ",");// Pasar al iguinte numero
             }
             if ( cantidad > 0){
                 float Promedio = (float)suma / cantidad;
