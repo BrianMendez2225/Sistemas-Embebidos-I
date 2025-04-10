@@ -1,1 +1,20 @@
+clc; clear; close all;
 
+% Definir funciones de transferencia
+K = tf([1], [16]);
+G = tf([11], [1 4]);
+H = tf([1], [4]);
+
+% Reducción paso a paso
+G1 = series(K, G);
+GT = feedback(G1, H);
+
+disp('La función de transferencia equivalente del sistema es:');
+GT
+% Respuesta al escalón unitario
+figure;
+step(GT);
+title('Respuesta del sistema a una entrada escalón unitario');
+xlabel('Tiempo (s)');
+ylabel('Salida y(t)');
+grid on;
