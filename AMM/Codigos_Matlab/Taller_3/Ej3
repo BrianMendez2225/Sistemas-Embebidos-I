@@ -1,9 +1,9 @@
 clc; clear; close all;
 
 % Definir las funciones de transferencia
-K = 10
-G = tf([4], [1 0])
-H = 5
+K = 10;
+G = tf([4], [1 0]);
+H = 5;
 
 % Reducimos paso a paso
 G1 = series(K, G);
