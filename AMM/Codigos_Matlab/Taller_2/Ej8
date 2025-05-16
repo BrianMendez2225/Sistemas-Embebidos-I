@@ -1,32 +1,32 @@
-% Ejercicio 8
+clc
+[num, den]= linmod('Taller1_C3_Uso_de_simulink');
+funcion=tf(num, den)
 
-% Paso 1: Definir Funciones de Transferencia dadas
-G1 = tf([4], [1 2]);
-G2 = tf([5], [1 3]);
-G3 = tf([3], [1 4]);
-H1 = tf([1], [1 1]);
-H2 = tf([2], [1 2]);
-H3 = tf([3], [1 5]);
 
-R1 = H1/G2;
+%FUNCIONES DE TRANSFERENCIA.
+s= tf('s');
+G1= (4)/(s+2);
+G2= (5)/(s+3);
+G3= (3)/(s+4);
+H1= (1)/(s+1);
+H2= (2)/(s+2);
+H3= (3)/(s+5);
 
-% Paso 2: Reducir la retroalimentación de G2
-R2 = feedback(G2, H2);
+%SIMPLIFICACIÖN DIAGRAMA DE BLOQUES
 
-% Paso 3: Resolver el paralelo de R1
-R3 = parallel(R1, 1);
+s2= parallel(H1/G2, 1);
+s1= feedback(G2, H2);
+s3= series(series(s1, s2), G3);
+s4= feedback(s3, H3);
+s5= series(G1, s4);
 
-% Paso 4: Multiplicar en serie R2, R3 y G3
-R4 = series(R2, series(R3, G3));
+%FUNCION DE TRANSFERENCIA REDUCIDA:
+sF= feedback(s5, 1)
 
-% Paso 5: Reducir la retroalimentación de R4 con H3
-R5 = feedback(R4, H3);
+figure(1);step(sF)
+grid on;
+title('SIMULINK')
 
-% Paso 6: Multiplicar en serie R5 y G1
-R6 = series(R4, G1);
-
-% Paso 7: Reducir la retroalimentación unitaria de R6
-T = feedback(R6, 1);
-
-disp('Función de transferencia final:');
-display(T);
+figure(2);step(funcion)
+title('MATLAB')
+grid on;
