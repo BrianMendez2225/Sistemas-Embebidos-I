@@ -1,0 +1,8 @@
+s = tf('s');
+G = (s + 20) / (s^2 + 4*s + 20);
+
+rlocus(G)
+grid on
+title('Lugar Geométrico de las Raíces (LGR)')
+xlabel('Parte real')
+ylabel('Parte imaginaria')
