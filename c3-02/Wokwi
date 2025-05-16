@@ -1,1 +1,98 @@
+// Librerías necesarias
+#include <Wire.h>
+#include <Adafruit_SSD1306.h>
+#include <Adafruit_GFX.h>
+#include <LiquidCrystal_I2C.h>
+#include "DHT.h"
+
+// Definición de pines
+#define DHTPIN 23         // Pin de datos del sensor DHT22
+#define DHTTYPE DHT22     // Tipo de sensor
+#define POT_PIN 34        // Pin del potenciómetro (entrada analógica)
+#define LED_PIN 25        // Pin del LED (salida digital)
+
+// Configuración de la pantalla OLED
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 64
+Adafruit_SSD1306 oled(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1); // Pantalla OLED I2C
+
+// Configuración de la pantalla LCD I2C (dirección 0x27, 16 columnas, 2 filas)
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+// Creación del objeto DHT
+DHT dht(DHTPIN, DHTTYPE);
+
+// Variables para temperatura, setpoint y estado del LED
+float temperature = 0;
+float setpoint = 0;
+bool outputState = false;
+
+void setup() {
+  // Iniciar comunicación serial para depuración
+  Serial.begin(115200);
+
+  // Iniciar sensor DHT22
+  dht.begin();
+
+  // Configurar pines
+  pinMode(POT_PIN, INPUT);
+  pinMode(LED_PIN, OUTPUT);
+
+  // Iniciar pantalla OLED
+  if (!oled.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
+    Serial.println(F("Fallo al iniciar OLED"));
+    while (true); // Detener programa si la pantalla falla
+  }
+  oled.clearDisplay();
+  oled.setTextSize(1);
+  oled.setTextColor(SSD1306_WHITE);
+
+  // Iniciar pantalla LCD I2C
+  lcd.init();
+  lcd.backlight(); // Encender retroiluminación
+}
+
+void loop() {
+  // Leer temperatura del sensor DHT22
+  temperature = dht.readTemperature();
+
+  // Leer valor del potenciómetro (0–4095) y mapear a 0–100°C
+  int potValue = analogRead(POT_PIN);
+  setpoint = map(potValue, 0, 4095, 0, 100);
+
+  // Control ON-OFF del LED según la comparación temperatura-setpoint
+  if (!isnan(temperature)) {
+    if (temperature > setpoint) {
+      outputState = true;
+      digitalWrite(LED_PIN, HIGH); // Encender LED
+    } else {
+      outputState = false;
+      digitalWrite(LED_PIN, LOW);  // Apagar LED
+    }
+  }
+
+  // Mostrar datos en la pantalla OLED
+  oled.clearDisplay();
+  oled.setCursor(0, 0);
+  oled.print("Temp: ");
+  oled.print(temperature, 1); // Mostrar temperatura con 1 decimal
+  oled.println(" C");
+
+  oled.setCursor(0, 16);
+  oled.print("Estado: ");
+  oled.println(outputState ? "ON" : "OFF"); // Mostrar estado del LED
+
+  oled.display(); // Actualizar pantalla OLED
+
+  // Mostrar setpoint en la pantalla LCD
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Setpoint:");
+  lcd.setCursor(0, 1);
+  lcd.print(setpoint, 1); // Mostrar setpoint con 1 decimal
+  lcd.print(" C");
+
+  // Esperar 1 segundo antes del próximo ciclo
+  delay(1000);
+}
 
