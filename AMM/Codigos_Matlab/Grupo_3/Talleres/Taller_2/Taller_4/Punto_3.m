@@ -1,6 +1,6 @@
 clc
 den = [4 2 1 5 10];
-num = 5 10;
+num = [5 10];
 G= tf(num,den)
 
 omega = 29;
