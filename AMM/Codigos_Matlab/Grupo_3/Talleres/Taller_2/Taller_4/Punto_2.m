@@ -1,6 +1,6 @@
 clc
-den = [1 9 30 40];  % s^3 + 9 s^2 + 30 s + 40
-num = 50;
+den = [7 7 29 1];  % s^3 + 9 s^2 + 30 s + 40
+num = 86;
 G= tf(num,den)
 
 omega = 29;
