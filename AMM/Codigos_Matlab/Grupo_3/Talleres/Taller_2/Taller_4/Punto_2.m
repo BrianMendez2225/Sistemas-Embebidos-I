@@ -1,5 +1,5 @@
 clc
-den = [7 7 29 1];  % s^3 + 9 s^2 + 30 s + 40
+den = [7 7 29 1];
 num = 86;
 G= tf(num,den)
 
